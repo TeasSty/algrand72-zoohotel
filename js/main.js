@@ -1,6 +1,5 @@
 (() => {
   const VK_URL = "https://vk.me/algrand72";
-
   const burger = document.getElementById("burger");
   const nav = document.getElementById("nav");
 
@@ -8,62 +7,41 @@
     burger.addEventListener("click", () => {
       const open = nav.classList.toggle("is-open");
       burger.setAttribute("aria-expanded", String(open));
-      burger.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+      burger.setAttribute("aria-label", open ? "Закрыть меню" : "Меню");
     });
 
     nav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
         nav.classList.remove("is-open");
         burger.setAttribute("aria-expanded", "false");
-        burger.setAttribute("aria-label", "Открыть меню");
+        burger.setAttribute("aria-label", "Меню");
       });
     });
   }
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const targets = document.querySelectorAll(
+    ".statement, .proof, .process, .reports, .species, .gallery, .contact-band, .bottom"
+  );
+
+  targets.forEach((el) => el.classList.add("reveal"));
+
   if (!reduceMotion && "IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            entry.target.classList.add("is-in");
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -8% 0px" }
     );
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    targets.forEach((el) => observer.observe(el));
   } else {
-    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+    targets.forEach((el) => el.classList.add("is-in"));
   }
-
-  const dogsCard = document.getElementById("dogs-card");
-  const catsCard = document.getElementById("cats-card");
-  const dogsDetails = document.getElementById("dogs-details");
-  const catsDetails = document.getElementById("cats-details");
-
-  function togglePanel(panel, other) {
-    if (!panel) return;
-    const willOpen = panel.hasAttribute("hidden");
-    if (other) other.setAttribute("hidden", "");
-    if (willOpen) {
-      panel.removeAttribute("hidden");
-      panel.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
-    } else {
-      panel.setAttribute("hidden", "");
-    }
-  }
-
-  dogsCard?.addEventListener("click", (e) => {
-    e.preventDefault();
-    togglePanel(dogsDetails, catsDetails);
-  });
-
-  catsCard?.addEventListener("click", (e) => {
-    e.preventDefault();
-    togglePanel(catsDetails, dogsDetails);
-  });
 
   const form = document.getElementById("booking-form");
   const status = document.getElementById("form-status");
@@ -123,8 +101,8 @@
 
     if (status) {
       status.textContent = copied
-        ? "Текст заявки скопирован. Откроется VK — вставьте сообщение (Ctrl+V) и отправьте."
-        : "Откроется VK. Скопируйте текст заявки вручную и отправьте сообщению.";
+        ? "Текст скопирован. Откроется VK — вставьте сообщение (Ctrl+V) и отправьте."
+        : "Откроется VK. Вставьте текст заявки вручную.";
     }
 
     window.open(VK_URL, "_blank", "noopener,noreferrer");
