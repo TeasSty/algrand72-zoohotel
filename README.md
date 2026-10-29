@@ -14,6 +14,7 @@
 npx --yes serve .
 ```
 
-## GitHub Pages
+## Ссылки
 
-Репозиторий настроен на публикацию из корня ветки `main`.
+- Репозиторий: https://github.com/TeasSty/algrand72-zoohotel
+- Сайт (GitHub Pages): https://teassty.github.io/algrand72-zoohotel/
